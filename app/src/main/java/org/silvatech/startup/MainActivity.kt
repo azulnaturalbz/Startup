@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
+import org.silvatech.startup.R.id.*
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -34,7 +35,7 @@ class MainActivity : AppCompatActivity() {
             R.id.bu9 -> cellID = 9
 
         }
-        Toast.makeText(this, "ID: $cellID", Toast.LENGTH_LONG).show()
+//        Toast.makeText(this, "ID: $cellID", Toast.LENGTH_LONG).show()
         PlayGame(cellID,buSelected)
 
     }
@@ -48,13 +49,14 @@ class MainActivity : AppCompatActivity() {
 
         if (ActivePlayer==1){
             buSelected.text="X"
-            buSelected.setBackgroundColor(Color.GREEN)
+            buSelected.setBackgroundResource(R.color.blue)
             player1.add(cellId)
             ActivePlayer=2
+            AutoPlay()
         }
         else{
             buSelected.text="O"
-            buSelected.setBackgroundColor(Color.BLUE)
+            buSelected.setBackgroundResource(R.color.darkgreen)
             player2.add(cellId)
             ActivePlayer=1
         }
@@ -147,5 +149,34 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, "The winner of this game is player 2", Toast.LENGTH_LONG).show()
             }
         }
+    }
+
+    fun AutoPlay(){
+        var emptyCells = ArrayList<Int>()
+        for (cellID in 1..9){
+            if (!(player1.contains(cellID)|| player2.contains(cellID))){
+                emptyCells.add(cellID)
+            }
+        }
+        var r = Random()
+        val randIndex = r.nextInt(emptyCells.size-0)+0
+        val cellID = emptyCells[randIndex]
+        var buSelect:Button?
+        when(cellID){
+            1-> buSelect=bu1
+            2-> buSelect=bu2
+            3-> buSelect=bu3
+            4-> buSelect=bu4
+            5-> buSelect=bu5
+            6-> buSelect=bu6
+            7-> buSelect=bu7
+            8-> buSelect=bu8
+            9-> buSelect=bu9
+            else -> {
+                buSelect=bu1
+            }
+
+        }
+        PlayGame(cellID,buSelect)
     }
 }
